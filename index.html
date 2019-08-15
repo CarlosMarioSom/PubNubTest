@@ -1,9 +1,35 @@
-<!-- Agrega la biblioteca de PubNub -->
-<script
-    src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.21.7.js"
-></script>
 <html>
+    <!-- Agrega la biblioteca de PubNub -->
+    <script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.21.7.js"></script>
+    <!-- Instanciar PubNub -->
+    <script type="text/javascript">
+        var pubNubDemo = new PubNub({
+            publishKey: 'pub-c-b8a30c4d-71df-46f7-b712-8b4a98f96251',
+            subscribeKey: 'sub-c-a8fad4f0-b7da-11e9-9a04-12eee1646898',
+        });
+
+        this.pubNubDemo.addListener({
+            message: function(message) {
+                console.log(message);
+            },
+        });
+
+        this.pubNubDemo.subscribe({
+            channels: ['demo_tutorial'],
+        });
+
+        function sendToChannel() {
+            this.pubNubDemo.publish({
+                message: {
+                    color: document.getElementById('input1').value,
+                },
+                channel: ['demo_tutorial'],
+            });
+        }
+    </script>
     <body>
         <h1>Hola Mundo!</h1>
     </body>
+    <input id="input1" type="text" name="Text" /><br />
+    <button onclick="sendToChannel()">Enviar por PubNub</button>
 </html>
